@@ -1,0 +1,23 @@
+{
+  "name": "create-api-rest-node-express",
+  "version": "1.0.0",
+  "description": "api rest with nodejs/express/mongodb",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LePetitLouis/create-api-rest-node-express.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LePetitLouis/create-api-rest-node-express/issues"
+  },
+  "homepage": "https://github.com/LePetitLouis/create-api-rest-node-express#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.9"
+  }
+}
