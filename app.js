@@ -2,11 +2,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-const Thing = require('./models/thing');
+const stuffRoutes = require('./routes/stuff');
 
 // init express
 const app = express();
-
 
 // connect to mongoose
 mongoose.connect(
@@ -14,7 +13,6 @@ mongoose.connect(
    { useNewUrlParser: true, useUnifiedTopology: true })
    .then(() => console.log('Connexion à MongoDB réussie !'))
    .catch(() => console.log('Connexion à MongoDB échouée !'));
-
 
 // CORS
 app.use((req, res, next) => {
@@ -27,43 +25,7 @@ app.use((req, res, next) => {
 // parse body to json 
 app.use(bodyParser.json());
 
-// post method
-app.post('/api/stuff', (req, res, next) => {
-   delete req.body._id;
-   const thing = new Thing({
-     ...req.body
-   });
-   thing.save()
-     .then(() => res.status(201).json({ message: 'Objet enregistré !'}))
-     .catch(error => res.status(400).json({ error }));
-});
+// stuff route
+app.use('/api/stuff', stuffRoutes);
 
-// put method
-app.put('/api/stuff/:id', (req, res, next) => {
-   Thing.updateOne({ _id: req.params.id }, { ...req.body, _id: req.params.id })
-     .then(() => res.status(200).json({ message: 'Objet modifié !'}))
-     .catch(error => res.status(400).json({ error }));
-});
-
-// delete method
-app.delete('/api/stuff/:id', (req, res, next) => {
-   Thing.deleteOne({ _id: req.params.id })
-     .then(() => res.status(200).json({ message: 'Objet supprimé !'}))
-     .catch(error => res.status(400).json({ error }));
-});
-
-// get by id method
-app.get('/api/stuff/:id', (req, res, next) => {
-   Thing.findOne({ _id: req.params.id })
-     .then(thing => res.status(200).json(thing))
-     .catch(error => res.status(404).json({ error }));
-});
-
-// get all method
-app.get('/api/stuff', (req, res, next) => {
-   Thing.find()
-     .then(things => res.status(200).json(things))
-     .catch(error => res.status(400).json({ error }));
-});
- 
 module.exports = app;
